@@ -1,23 +1,10 @@
-/* ============================================================
-   Email Guard — commands.js
-   Hosted on GitHub Pages. Referenced by manifest.xml.
-   ============================================================ */
-
 Office.onReady(() => {});
 
-// ── CONFIGURATION ─────────────────────────────────────────────
-const INTERNAL_DOMAINS = [
-  "stengg.com"       // ← EDIT: add your org domain(s)
-];
+const INTERNAL_DOMAINS = ["stengg.com"];
 
-// Fallback keyword check (catches unclassified emails with sensitive words)
 const SENSITIVE_KEYWORDS = [
   "internal", "confidential", "do not forward", "not for external", "restricted"
 ];
-// ─────────────────────────────────────────────────────────────
-
-
-// ── RIBBON BUTTONS ───────────────────────────────────────────
 
 function setInternal(event) {
   const item = Office.context.mailbox.item;
@@ -35,9 +22,6 @@ function setExternal(event) {
   });
 }
 
-
-// ── SEND INTERCEPT ───────────────────────────────────────────
-
 function onItemSend(event) {
   const item = Office.context.mailbox.item;
 
@@ -50,22 +34,19 @@ function onItemSend(event) {
             ...(toResult.value || []),
             ...(ccResult.value || [])
           ];
-          const subject   = subjectResult.value || "";
-          const body      = bodyResult.value || "";
-          const fullText  = (subject + " " + body).toLowerCase();
+          const subject  = subjectResult.value || "";
+          const body     = bodyResult.value || "";
+          const fullText = (subject + " " + body).toLowerCase();
 
-          // Classify by subject tag
           const isInternal     = subject.toUpperCase().includes("[INTERNAL]");
           const isExternal     = subject.toUpperCase().includes("[EXTERNAL]");
           const isUnclassified = !isInternal && !isExternal;
 
-          // Find external recipients
           const externalRecipients = recipients.filter(r => {
             const email = r.emailAddress.toLowerCase();
             return !INTERNAL_DOMAINS.some(d => email.endsWith("@" + d));
           });
 
-          // Keyword match for unclassified emails
           const matchedKeyword = SENSITIVE_KEYWORDS.find(kw =>
             fullText.includes(kw.toLowerCase())
           );
@@ -79,7 +60,6 @@ function onItemSend(event) {
             return;
           }
 
-          // Build warning reason
           const reason = isInternal
             ? "Subject is tagged [INTERNAL]"
             : `Contains keyword: "${matchedKeyword}"`;
@@ -87,7 +67,7 @@ function onItemSend(event) {
           const externalList = externalRecipients.map(r => r.emailAddress).join(",");
 
           const dialogUrl =
-            "https://jameswong95.github.io/email-guard/warning.html" +  // ← EDIT
+            "https://jameswong95.github.io/email-guard/warning.html" +
             "?reason=" + encodeURIComponent(reason) +
             "&recipients=" + encodeURIComponent(externalList);
 
@@ -96,7 +76,6 @@ function onItemSend(event) {
             { height: 35, width: 45, displayInIframe: true },
             (asyncResult) => {
               if (asyncResult.status === Office.AsyncResultStatus.Failed) {
-                // If dialog fails to open, block by default (safe failure)
                 event.completed({ allowEvent: false });
                 return;
               }
@@ -106,7 +85,6 @@ function onItemSend(event) {
                 event.completed({ allowEvent: msg.message === "send" });
               });
               dialog.addEventHandler(Office.EventType.DialogEventReceived, () => {
-                // User closed dialog without choosing — block
                 event.completed({ allowEvent: false });
               });
             }
