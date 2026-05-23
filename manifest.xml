@@ -3,13 +3,9 @@
   xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
-  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
   xsi:type="MailApp">
 
-  <!-- ── EDIT THESE ─────────────────────────────────────── -->
-  <Id>174A45ED-1512-45BF-AA27-1EC72515B084</Id>  <!-- generate at: guidgenerator.com -->
-  <!-- ───────────────────────────────────────────────────── -->
-
+  <Id>188af1e3-a53c-4451-82f9-2d72364b5ec9</Id>
   <Version>1.0.0</Version>
   <ProviderName>James</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
@@ -54,13 +50,11 @@
 
           <FunctionFile resid="Commands.Url"/>
 
-          <!-- ── RIBBON BUTTONS ──────────────────────────── -->
           <ExtensionPoint xsi:type="MessageComposeCommandSurface">
             <OfficeTab id="TabDefault">
               <Group id="EmailGuardGroup">
                 <Label resid="GroupLabel"/>
 
-                <!-- 🔒 Internal button -->
                 <Control xsi:type="Button" id="BtnInternal">
                   <Label resid="BtnInternalLabel"/>
                   <Supertip>
@@ -77,7 +71,6 @@
                   </Action>
                 </Control>
 
-                <!-- 🌐 External button -->
                 <Control xsi:type="Button" id="BtnExternal">
                   <Label resid="BtnExternalLabel"/>
                   <Supertip>
@@ -98,7 +91,6 @@
             </OfficeTab>
           </ExtensionPoint>
 
-          <!-- ── SEND EVENT ──────────────────────────────── -->
           <ExtensionPoint xsi:type="Events">
             <Event Type="ItemSend" FunctionExecution="synchronous" FunctionName="onItemSend"/>
           </ExtensionPoint>
@@ -118,12 +110,12 @@
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GroupLabel"       DefaultValue="Email Guard"/>
-        <bt:String id="BtnInternalLabel" DefaultValue="🔒 Internal"/>
-        <bt:String id="BtnExternalLabel" DefaultValue="🌐 External"/>
+        <bt:String id="BtnInternalLabel" DefaultValue="Internal"/>
+        <bt:String id="BtnExternalLabel" DefaultValue="External"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="BtnInternalDesc" DefaultValue="Tag this email as INTERNAL — send to external recipients will be blocked."/>
-        <bt:String id="BtnExternalDesc" DefaultValue="Tag this email as EXTERNAL — safe to send outside the organisation."/>
+        <bt:String id="BtnInternalDesc" DefaultValue="Tag this email as INTERNAL. Sending to external recipients will be blocked."/>
+        <bt:String id="BtnExternalDesc" DefaultValue="Tag this email as EXTERNAL. Safe to send outside the organisation."/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
