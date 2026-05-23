@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Email Guard Warning</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .icon {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #c4000a;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 16px 0;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #999;
+      margin-bottom: 6px;
+    }
+
+    .value {
+      font-size: 13px;
+      color: #222;
+      background: #f5f5f5;
+      border-radius: 6px;
+      padding: 8px 12px;
+      word-break: break-all;
+      margin-bottom: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    button:hover { opacity: 0.85; }
+
+    .btn-block {
+      background: #c4000a;
+      color: #fff;
+    }
+
+    .btn-send {
+      background: #0078d4;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="icon">⚠️</div>
+      <div>
+        <div class="title">External Recipient Detected</div>
+        <div class="subtitle">Email Guard — review before sending</div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <div class="label">Reason flagged</div>
+    <div class="value" id="reason">—</div>
+
+    <div class="label">External recipient(s)</div>
+    <div class="value" id="recipients">—</div>
+
+    <div class="actions">
+      <button class="btn-block" onclick="blockSend()">✕ Cancel Send</button>
+      <button class="btn-send" onclick="confirmSend()">Send Anyway →</button>
+    </div>
+  </div>
+
+  <script>
+    Office.onReady(() => {
+      const params = new URLSearchParams(window.location.search);
+      document.getElementById("reason").textContent = params.get("reason") || "—";
+      document.getElementById("recipients").textContent =
+        (params.get("recipients") || "—").replace(/,/g, "\n");
+    });
+
+    function blockSend() {
+      Office.context.ui.messageParent("block");
+    }
+
+    function confirmSend() {
+      Office.context.ui.messageParent("send");
+    }
+  </script>
+</body>
+</html>

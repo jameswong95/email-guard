@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+  xsi:type="MailApp">
+
+  <!-- ── EDIT THESE ─────────────────────────────────────── -->
+  <Id>174A45ED-1512-45BF-AA27-1EC72515B084</Id>  <!-- generate at: guidgenerator.com -->
+  <!-- ───────────────────────────────────────────────────── -->
+
+  <Version>1.0.0</Version>
+  <ProviderName>James</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Email Guard"/>
+  <Description DefaultValue="Warns before sending internal emails to external recipients."/>
+
+  <IconUrl DefaultValue="https://jameswong95.github.io/email-guard/icon32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://jameswong95.github.io/email-guard/icon64.png"/>
+  <SupportUrl DefaultValue="https://jameswong95.github.io/email-guard/"/>
+
+  <AppDomains>
+    <AppDomain>https://jameswong95.github.io</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.8"/>
+    </Sets>
+  </Requirements>
+
+  <FormSettings>
+    <Form xsi:type="ItemEdit">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://jameswong95.github.io/email-guard/warning.html"/>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadWriteItem</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+  </Rule>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <DesktopFormFactor>
+
+          <FunctionFile resid="Commands.Url"/>
+
+          <!-- ── RIBBON BUTTONS ──────────────────────────── -->
+          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="EmailGuardGroup">
+                <Label resid="GroupLabel"/>
+
+                <!-- 🔒 Internal button -->
+                <Control xsi:type="Button" id="BtnInternal">
+                  <Label resid="BtnInternalLabel"/>
+                  <Supertip>
+                    <Title resid="BtnInternalLabel"/>
+                    <Description resid="BtnInternalDesc"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon16"/>
+                    <bt:Image size="32" resid="Icon32"/>
+                    <bt:Image size="64" resid="Icon64"/>
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>setInternal</FunctionName>
+                  </Action>
+                </Control>
+
+                <!-- 🌐 External button -->
+                <Control xsi:type="Button" id="BtnExternal">
+                  <Label resid="BtnExternalLabel"/>
+                  <Supertip>
+                    <Title resid="BtnExternalLabel"/>
+                    <Description resid="BtnExternalDesc"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon16"/>
+                    <bt:Image size="32" resid="Icon32"/>
+                    <bt:Image size="64" resid="Icon64"/>
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>setExternal</FunctionName>
+                  </Action>
+                </Control>
+
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+          <!-- ── SEND EVENT ──────────────────────────────── -->
+          <ExtensionPoint xsi:type="Events">
+            <Event Type="ItemSend" FunctionExecution="synchronous" FunctionName="onItemSend"/>
+          </ExtensionPoint>
+
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon16" DefaultValue="https://jameswong95.github.io/email-guard/icon16.png"/>
+        <bt:Image id="Icon32" DefaultValue="https://jameswong95.github.io/email-guard/icon32.png"/>
+        <bt:Image id="Icon64" DefaultValue="https://jameswong95.github.io/email-guard/icon64.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Commands.Url" DefaultValue="https://jameswong95.github.io/email-guard/commands.js"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GroupLabel"       DefaultValue="Email Guard"/>
+        <bt:String id="BtnInternalLabel" DefaultValue="🔒 Internal"/>
+        <bt:String id="BtnExternalLabel" DefaultValue="🌐 External"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="BtnInternalDesc" DefaultValue="Tag this email as INTERNAL — send to external recipients will be blocked."/>
+        <bt:String id="BtnExternalDesc" DefaultValue="Tag this email as EXTERNAL — safe to send outside the organisation."/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+
+</OfficeApp>
