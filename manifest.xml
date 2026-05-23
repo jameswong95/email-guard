@@ -12,8 +12,8 @@
   <DisplayName DefaultValue="Email Guard"/>
   <Description DefaultValue="Warns before sending internal emails to external recipients."/>
 
-  <IconUrl DefaultValue="https://jameswong95.github.io/email-guard/icon32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://jameswong95.github.io/email-guard/icon64.png"/>
+  <IconUrl DefaultValue="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Icon_Simple_Mail.svg/32px-Icon_Simple_Mail.svg.png"/>
+  <HighResolutionIconUrl DefaultValue="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Icon_Simple_Mail.svg/64px-Icon_Simple_Mail.svg.png"/>
   <SupportUrl DefaultValue="https://jameswong95.github.io/email-guard/"/>
 
   <AppDomains>
@@ -101,9 +101,9 @@
 
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon16" DefaultValue="https://jameswong95.github.io/email-guard/icon16.png"/>
-        <bt:Image id="Icon32" DefaultValue="https://jameswong95.github.io/email-guard/icon32.png"/>
-        <bt:Image id="Icon64" DefaultValue="https://jameswong95.github.io/email-guard/icon64.png"/>
+        <bt:Image id="Icon16" DefaultValue="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Icon_Simple_Mail.svg/16px-Icon_Simple_Mail.svg.png"/>
+        <bt:Image id="Icon32" DefaultValue="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Icon_Simple_Mail.svg/32px-Icon_Simple_Mail.svg.png"/>
+        <bt:Image id="Icon64" DefaultValue="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Icon_Simple_Mail.svg/64px-Icon_Simple_Mail.svg.png"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="Commands.Url" DefaultValue="https://jameswong95.github.io/email-guard/commands.js"/>
